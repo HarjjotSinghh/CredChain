@@ -1,0 +1,15 @@
+.root {
+  @apply sticky top-0 bg-background/80 backdrop-blur-lg border-b z-40 transition-all duration-150 ;
+}
+
+.link {
+  @apply inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer rounded-md p-1;
+}
+
+.link:focus {
+  @apply outline-none ring-2 ring-primary ring-opacity-50;
+}
+
+.logo {
+  @apply cursor-pointer rounded-full transform duration-100 ease-in-out;
+}
