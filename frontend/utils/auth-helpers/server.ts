@@ -168,6 +168,8 @@ export async function signUp(formData: FormData) {
 
   const email = String(formData.get('email')).trim();
   const password = String(formData.get('password')).trim();
+  const organization = formData.get('organization');
+  console.log(Number(Boolean(organization)))
   let redirectPath: string;
 
   if (!isValidEmail(email)) {
@@ -183,8 +185,11 @@ export async function signUp(formData: FormData) {
     email,
     password,
     options: {
-      emailRedirectTo: callbackURL
-    }
+      emailRedirectTo: callbackURL,
+      data: {
+        organization: Boolean(organization)
+      }
+    },
   });
 
   if (error) {
@@ -193,6 +198,7 @@ export async function signUp(formData: FormData) {
       'Sign up failed.',
       error.message
     );
+    console.error(error)
   } else if (data.session) {
     redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.');
   } else if (

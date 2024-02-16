@@ -56,8 +56,8 @@ export default async function SignIn({
     return (
         <div className="flex justify-center height-screen-helper">
             <div className="flex flex-col justify-between p-3 w-full ">
-                <div className="flex justify-center pb-12 ">
-                    <Logo className="h-12 w-auto" />
+                <div className="flex justify-center">
+                    <Logo className="h-12 w-auto object-contain" />
                 </div>
                 <Card
                     title={
@@ -69,6 +69,7 @@ export default async function SignIn({
                                 ? "Sign Up"
                                 : "Sign In"
                     }
+                    
                 >
                     {viewProp === "password_signin" && (
                         <PasswordSignIn
