@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import LogoCloud from "@/components/ui/LogoCloud";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";

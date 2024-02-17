@@ -1,0 +1,11 @@
+[package]
+name = "CredChain"
+version = "0.0.0"
+
+[addresses]
+CredChain = "_"
+
+[dependencies.AptosFramework]
+git= "https://github.com/aptos-labs/aptos-core.git"
+subdir = "aptos-move/framework/aptos-framework"
+rev= "framework-testnet"

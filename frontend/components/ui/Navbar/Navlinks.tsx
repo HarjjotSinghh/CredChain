@@ -7,12 +7,9 @@ import Logo from "@/components/icons/Logo";
 import { usePathname, useRouter } from "next/navigation";
 import { getRedirectMethod } from "@/utils/auth-helpers/settings";
 import s from "./Navbar.module.css";
-import Button from "../Button";
 import * as React from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuItem,
     DropdownMenuContent,
     DropdownMenuLabel,
@@ -20,7 +17,7 @@ import {
     DropdownMenuTrigger
 } from "../dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
-
+import { Button } from "../button";
 
 interface NavlinksProps {
     user?: any;
@@ -35,22 +32,22 @@ export default function Navlinks({ user }: NavlinksProps) {
                     <Logo className="h-12 w-auto object-contain" />
                 </Link>
                 <nav className="ml-8 text-xl md:flex hidden justify-center items-center gap-4 opacity-95">
-                    <Link href="/issue" className={s.link}>
+                    <Link href="/account" className={s.link}>
                         <Button
                             variant={"link"}
                             className="px-0 py-0 mt-1 text-foreground"
                         >
-                            Issue Certificates
+                            {user && user.user_metadata.organization ? "Issue Certificates" : "View Certificates"}
                         </Button>
                     </Link>
-                    <Link href="/validate" className={s.link}>
+                    {/* <Link href="/validate" className={s.link}>
                         <Button
                             variant={"link"}
                             className="px-0 py-0 mt-1 text-foreground"
                         >
                             Validate Certificates
                         </Button>
-                    </Link>
+                    </Link> */}
                 </nav>
             </div>
             <div className="flex justify-end space-x-8">
