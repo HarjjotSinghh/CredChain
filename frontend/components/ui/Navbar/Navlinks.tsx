@@ -21,7 +21,6 @@ import {
 } from "../dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 interface NavlinksProps {
     user?: any;
@@ -29,10 +28,6 @@ interface NavlinksProps {
 
 export default function Navlinks({ user }: NavlinksProps) {
     const router = getRedirectMethod() === "client" ? useRouter() : null;
-    const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
-    const [showActivityBar, setShowActivityBar] =
-        React.useState<Checked>(false);
-    const [showPanel, setShowPanel] = React.useState<Checked>(false);
     return (
         <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
             <div className="flex items-center flex-1">
@@ -48,7 +43,7 @@ export default function Navlinks({ user }: NavlinksProps) {
                             Issue Certificates
                         </Button>
                     </Link>
-                    <Link href="/create" className={s.link}>
+                    <Link href="/validate" className={s.link}>
                         <Button
                             variant={"link"}
                             className="px-0 py-0 mt-1 text-foreground"
@@ -62,11 +57,11 @@ export default function Navlinks({ user }: NavlinksProps) {
                 {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Avatar className="scale-110 hover:cursor-pointer">
+                            <Avatar className="scale-110 hover:cursor-pointer rounded-full border-2 border-primary/90">
                                 <AvatarImage
                                     src={
                                         user.avatar_url ??
-                                        "https://ui-avatars.com/api/?background=0f0f0f&color=fff&name=HS"
+                                        "https://ui-avatars.com/api/?background=242428&color=fff&name=HS"
                                     }
                                     alt={user.full_name ?? "User name"}
                                 />
@@ -80,8 +75,6 @@ export default function Navlinks({ user }: NavlinksProps) {
                             <DropdownMenuSeparator />
                             <Link href={"/account"}>
                                 <DropdownMenuItem
-                                    checked={showStatusBar}
-                                    onCheckedChange={setShowStatusBar}
                                 >
                                     Account
                                 </DropdownMenuItem>
@@ -92,8 +85,6 @@ export default function Navlinks({ user }: NavlinksProps) {
                                     href={"/dashboard"}
                                 >
                                     <DropdownMenuItem
-                                        checked={showActivityBar}
-                                        onCheckedChange={setShowActivityBar}
                                     >
                                         Dashboard
                                     </DropdownMenuItem>
@@ -107,8 +98,6 @@ export default function Navlinks({ user }: NavlinksProps) {
                                 }
                             >
                                 <DropdownMenuItem
-                                    checked={showActivityBar}
-                                    onCheckedChange={setShowActivityBar}
                                     className="focus:bg-inherit"
                                 >
                                     <Button

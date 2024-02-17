@@ -4,6 +4,7 @@ import Navbar from "@/components/ui/Navbar";
 import { Toaster } from "@/components/ui/Toasts/toaster";
 import { PropsWithChildren, Suspense } from "react";
 import { getURL } from "@/utils/helpers";
+import "styles/wallet-selector.css"
 import "styles/main.css";
 
 const meta = {
@@ -63,6 +64,7 @@ const atkinson_hyperlegible = Atkinson_Hyperlegible({
 export default async function RootLayout({ children }: PropsWithChildren) {
     return (
         <html lang="en" className={cn(instrument_sans.variable, atkinson_hyperlegible.variable, "dark")}>
+            
             <body className={cn(`bg-background text-foreground font-sans antialiased`)}>
 
                 <Navbar/>
