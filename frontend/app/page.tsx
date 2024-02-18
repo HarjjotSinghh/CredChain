@@ -19,7 +19,7 @@ export default async function PricingPage() {
                 </span>
             </h1>
             <div className="flex lg:max-w-[800px] max-w-2xl justify-center items-start flex-col gap-4">
-                <p className="lg:text-base text-sm opacity-85">
+                <p className="lg:text-base text-sm opacity-85 bg-background/5 rounded-lg p-1 pl-0 backdrop-blur-sm">
                     CredChain streamlines the certifcate verification process.
                     Institutions can seamlessly issue verifiable certificates
                     onto the blockchain, while employers and other entities can

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Tables } from "@/types_db";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
@@ -28,7 +28,7 @@ import ReactPDF, {
     Font
 } from "@react-pdf/renderer";
 import { Button } from "../button";
-import ReactDOM from "react-dom";
+import { Root, createRoot } from "react-dom/client";
 
 interface CertifcatesOwnedProps extends React.ComponentPropsWithRef<"div"> {
     user: Partial<Tables<"users">>;
@@ -59,7 +59,11 @@ const CertifcatesOwned = ({
     const [certificates, setCertificates] = React.useState<
         CertificateWithIssuingOrganization[] | null
     >(null);
-    Font.register({ family: 'Work Sans', src: "http://fonts.gstatic.com/s/worksans/v2/ElUAY9q6T0Ayx4zWzW63VKCWcynf_cDxXwCLxiixG1c.ttf", fontWeight: 800 });
+    Font.register({
+        family: "Work Sans",
+        src: "http://fonts.gstatic.com/s/worksans/v2/ElUAY9q6T0Ayx4zWzW63VKCWcynf_cDxXwCLxiixG1c.ttf",
+        fontWeight: 800
+    });
     const CertificatePDF = ({
         certificate
     }: {
@@ -70,11 +74,11 @@ const CertifcatesOwned = ({
                 style={{
                     flexDirection: "row",
                     backgroundColor: "#191a1a",
-                    fontFamily: "Work Sans",
+                    fontFamily: "Work Sans"
                 }}
                 size={{
-                    width: 1920/3,
-                    height: 1000/3
+                    width: 1920 / 3,
+                    height: 1000 / 3
                 }}
             >
                 <View
@@ -84,21 +88,89 @@ const CertifcatesOwned = ({
                         flexGrow: 1
                     }}
                 >
-                    <PDFImage src={"/logo.png"} style={{height:40, width: "auto", objectFit:"contain"}}></PDFImage>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:16, fontSize:12}}>Certificate issued to</Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:20, fontWeight: 800}}>{user.id}</Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>for</Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:24}}>{certificate.title}</Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:16, fontSize:12}}>
+                    <PDFImage
+                        src={"/logo.png"}
+                        style={{
+                            height: 40,
+                            width: "auto",
+                            objectFit: "contain"
+                        }}
+                    ></PDFImage>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 16,
+                            fontSize: 12
+                        }}
+                    >
+                        Certificate issued to
+                    </Text>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 4,
+                            fontSize: 20,
+                            fontWeight: 800
+                        }}
+                    >
+                        {user.id}
+                    </Text>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 4,
+                            fontSize: 12
+                        }}
+                    >
+                        for
+                    </Text>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 4,
+                            fontSize: 24
+                        }}
+                    >
+                        {certificate.title}
+                    </Text>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 16,
+                            fontSize: 12
+                        }}
+                    >
                         Issued By: {certificate.issuing_organization?.id}
                     </Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 4,
+                            fontSize: 12
+                        }}
+                    >
                         Issued On:{" "}
                         {new Date(certificate.issue_date).toLocaleDateString()}
                     </Text>
-                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>
+                    <Text
+                        style={{
+                            color: "#ffffff",
+                            textAlign: "center",
+                            marginTop: 4,
+                            fontSize: 12
+                        }}
+                    >
                         Verfiication URL:{" "}
-                        <PDFLink style={{color: "#0ee1be"}} href={`https://explorer.aptoslabs.com/txn/${certificate.txn_id}?network=testnet`}>
+                        <PDFLink
+                            style={{ color: "#0ee1be" }}
+                            href={`https://explorer.aptoslabs.com/txn/${certificate.txn_id}?network=testnet`}
+                        >
                             Click Here
                         </PDFLink>
                     </Text>
@@ -110,6 +182,9 @@ const CertifcatesOwned = ({
         const color = "#" + hash.slice(0, 6);
         return color;
     };
+
+    const viewCertificate = useRef<HTMLDivElement>(null);
+    const [viewCertificateRoot, setViewCertificateRoot] = useState<Root | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -267,21 +342,23 @@ const CertifcatesOwned = ({
                                         </TableCell>
                                         <TableCell>
                                             <Button
-                                            variant={"secondary"}
-                                                onClick={() =>
-                                                    ReactDOM.render(
+                                                variant={"secondary"}
+                                                onClick={() => {
+                                                    if (!viewCertificateRoot) {
+                                                        setViewCertificateRoot(
+                                                            createRoot(viewCertificate.current!)
+                                                        );
+                                                    }
+                                                    viewCertificateRoot?.render(
                                                         <PDFViewer>
                                                             <CertificatePDF
                                                                 certificate={
                                                                     certificate
                                                                 }
                                                             />
-                                                        </PDFViewer>,
-                                                        document.getElementById(
-                                                            "view-certificate"
-                                                        )
-                                                    )
-                                                }
+                                                        </PDFViewer>
+                                                    );
+                                                }}
                                             >
                                                 View Certificate
                                             </Button>
@@ -290,12 +367,14 @@ const CertifcatesOwned = ({
                                 ))}
                             </TableBody>
                         </Table>
-                        
                     ) : (
                         <p>You currently do not own any certificates.</p>
                     )}
-                    <div id="view-certificate" className="w-full [&_*]:w-full lg:h-[500px] lg:[&_*]:h-[500px] h-[300px] [&_*]:h-[300px]"></div>
-
+                    <div
+                        id="view-certificate"
+                        ref={viewCertificate}
+                        className="w-full [&_*]:w-full lg:h-[500px] lg:[&_*]:h-[500px] h-[300px] [&_*]:h-[300px]"
+                    ></div>
                 </div>
             )}
             {!connected && <NotConnected />}
