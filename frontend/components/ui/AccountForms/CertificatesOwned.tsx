@@ -16,7 +16,19 @@ import {
     TableRow
 } from "../table";
 import Link from "next/link";
-import { PDFViewer, Document, Page, Text, View } from "@react-pdf/renderer";
+import ReactPDF, {
+    PDFViewer,
+    Document,
+    Page,
+    Text,
+    View,
+    StyleSheet,
+    Link as PDFLink,
+    Image as PDFImage,
+    Font
+} from "@react-pdf/renderer";
+import { Button } from "../button";
+import ReactDOM from "react-dom";
 
 interface CertifcatesOwnedProps extends React.ComponentPropsWithRef<"div"> {
     user: Partial<Tables<"users">>;
@@ -47,7 +59,53 @@ const CertifcatesOwned = ({
     const [certificates, setCertificates] = React.useState<
         CertificateWithIssuingOrganization[] | null
     >(null);
-
+    Font.register({ family: 'Work Sans', src: "http://fonts.gstatic.com/s/worksans/v2/ElUAY9q6T0Ayx4zWzW63VKCWcynf_cDxXwCLxiixG1c.ttf", fontWeight: 800 });
+    const CertificatePDF = ({
+        certificate
+    }: {
+        certificate: CertificateWithIssuingOrganization;
+    }) => (
+        <Document>
+            <Page
+                style={{
+                    flexDirection: "row",
+                    backgroundColor: "#191a1a",
+                    fontFamily: "Work Sans",
+                }}
+                size={{
+                    width: 1920/3,
+                    height: 1000/3
+                }}
+            >
+                <View
+                    style={{
+                        margin: 24,
+                        padding: 24,
+                        flexGrow: 1
+                    }}
+                >
+                    <PDFImage src={"/logo.png"} style={{height:40, width: "auto", objectFit:"contain"}}></PDFImage>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:16, fontSize:12}}>Certificate issued to</Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:20, fontWeight: 800}}>{user.id}</Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>for</Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:24}}>{certificate.title}</Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:16, fontSize:12}}>
+                        Issued By: {certificate.issuing_organization?.id}
+                    </Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>
+                        Issued On:{" "}
+                        {new Date(certificate.issue_date).toLocaleDateString()}
+                    </Text>
+                    <Text style={{color: "#ffffff", textAlign:"center", marginTop:4, fontSize:12}}>
+                        Verfiication URL:{" "}
+                        <PDFLink style={{color: "#0ee1be"}} href={`https://explorer.aptoslabs.com/txn/${certificate.txn_id}?network=testnet`}>
+                            Click Here
+                        </PDFLink>
+                    </Text>
+                </View>
+            </Page>
+        </Document>
+    );
     const generateRandomColor = (hash: string) => {
         const color = "#" + hash.slice(0, 6);
         return color;
@@ -149,6 +207,7 @@ const CertifcatesOwned = ({
                                     <TableHead>Issue Date</TableHead>
                                     <TableHead>Verification</TableHead>
                                     <TableHead>Badge</TableHead>
+                                    <TableHead>Preview</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody className="text-base divide-y divide-foreground/5">
@@ -206,13 +265,37 @@ const CertifcatesOwned = ({
                                                 </span>
                                             </div>
                                         </TableCell>
+                                        <TableCell>
+                                            <Button
+                                            variant={"secondary"}
+                                                onClick={() =>
+                                                    ReactDOM.render(
+                                                        <PDFViewer>
+                                                            <CertificatePDF
+                                                                certificate={
+                                                                    certificate
+                                                                }
+                                                            />
+                                                        </PDFViewer>,
+                                                        document.getElementById(
+                                                            "view-certificate"
+                                                        )
+                                                    )
+                                                }
+                                            >
+                                                View Certificate
+                                            </Button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
+                        
                     ) : (
-                        <p>No certificates found for the user.</p>
+                        <p>You currently do not own any certificates.</p>
                     )}
+                    <div id="view-certificate" className="w-full [&_*]:w-full lg:h-[500px] lg:[&_*]:h-[500px] h-[300px] [&_*]:h-[300px]"></div>
+
                 </div>
             )}
             {!connected && <NotConnected />}

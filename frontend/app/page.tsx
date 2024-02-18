@@ -40,7 +40,7 @@ export default async function PricingPage() {
                 </div>
             </div>
 
-            <LogoCloud />
+            {/* <LogoCloud /> */}
         </main>
     );
 }
