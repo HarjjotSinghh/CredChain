@@ -25,7 +25,8 @@ import ReactPDF, {
     StyleSheet,
     Link as PDFLink,
     Image as PDFImage,
-    Font
+    Font,
+    PDFDownloadLink
 } from "@react-pdf/renderer";
 import { Button } from "../button";
 import { Root, createRoot } from "react-dom/client";
@@ -69,7 +70,7 @@ const CertifcatesOwned = ({
     }: {
         certificate: CertificateWithIssuingOrganization;
     }) => (
-        <Document>
+        <Document title={`${user.id}_${certificate.title}}`}>
             <Page
                 style={{
                     flexDirection: "row",
@@ -184,7 +185,9 @@ const CertifcatesOwned = ({
     };
 
     const viewCertificate = useRef<HTMLDivElement>(null);
-    const [viewCertificateRoot, setViewCertificateRoot] = useState<Root | null>(null);
+    const [viewCertificateRoot, setViewCertificateRoot] = useState<Root | null>(
+        null
+    );
 
     useEffect(() => {
         const fetchData = async () => {
@@ -343,24 +346,44 @@ const CertifcatesOwned = ({
                                         <TableCell>
                                             <Button
                                                 variant={"secondary"}
-                                                onClick={() => {
-                                                    if (!viewCertificateRoot) {
-                                                        setViewCertificateRoot(
-                                                            createRoot(viewCertificate.current!)
-                                                        );
-                                                    }
-                                                    viewCertificateRoot?.render(
-                                                        <PDFViewer>
-                                                            <CertificatePDF
-                                                                certificate={
-                                                                    certificate
-                                                                }
-                                                            />
-                                                        </PDFViewer>
-                                                    );
-                                                }}
+                                                // onClick={() => {
+                                                //     if (!viewCertificateRoot) {
+                                                //         setViewCertificateRoot(
+                                                //             createRoot(viewCertificate.current!)
+                                                //         );
+                                                //     }
+                                                //     viewCertificateRoot?.render(
+                                                //         <PDFViewer>
+                                                //             <CertificatePDF
+                                                //                 certificate={
+                                                //                     certificate
+                                                //                 }
+                                                //             />
+                                                //         </PDFViewer>
+                                                //     );
+                                                // }}
                                             >
-                                                View Certificate
+                                                <PDFDownloadLink
+                                                    document={
+                                                        <CertificatePDF
+                                                            certificate={
+                                                                certificate
+                                                            }
+                                                        />
+                                                    }
+                                                    fileName={`CredChain_${user.id}_${certificate.id}.pdf`}
+                                                >
+                                                    {({
+                                                        blob,
+                                                        url,
+                                                        loading,
+                                                        error
+                                                    }) =>
+                                                        loading
+                                                            ? "Loading..."
+                                                            : "Download"
+                                                    }
+                                                </PDFDownloadLink>
                                             </Button>
                                         </TableCell>
                                     </TableRow>
