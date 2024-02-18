@@ -27,7 +27,7 @@ const WalletInfo = ({
         signMessageAndVerify
     } = useWallet();
     return (
-        <div {...otherProps} className={cn("flex justify-center items-center gap-8", otherProps.className)}>
+        <div {...otherProps} className={cn("flex lg:justify-center lg:items-center justify-start items-start gap-8 px-8", otherProps.className)}>
             {connected && (<h1 className="font-heading text-xl font-bold inline-flex items-start justify-start flex-col">Account Connected via {wallet?.name} Wallet<span className="text-base font-medium">Click the button to disconnect</span></h1>)}
             <WalletSelector/>
         </div>

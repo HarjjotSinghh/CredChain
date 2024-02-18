@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '../Button';
+import { Button } from '../button';
 import Card from '@/components/ui/Card';
 import { updateName } from '@/utils/auth-helpers/server';
 import { handleRequest } from '@/utils/auth-helpers/client';

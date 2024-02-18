@@ -134,18 +134,18 @@ export default function CreateCertificate({
 
     return (
         <div
-            className="lg:px-16 px-4 py-24 pb-48 flex justify-center items-center gap-16 max-w-2xl w-full"
+            className="flex lg:justify-center lg:items-center items-start justify-start gap-16 w-full"
             {...otherProps}
         >
             {connected && (
-                <div className="flex flex-col gap-4 justify-center items-center">
+                <div className="flex flex-col gap-4 lg:justify-center lg:items-center justify-start items-start w-full">
                     <h1 className="font-heading text-3xl font-bold inline-flex items-start justify-start flex-col">
                         Issue Certificates
                     </h1>
                     <Form {...form}>
                         <form
                             onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-8 rounded-2xl lg:p-8 p-4 border-2 border-primary/10 hover:border-primary/50 transition-all duration-300 ease-in-out shadow-2xl shadow-primary/10 hover:shadow-primary/20 lg:min-w-[400px]"
+                            className="space-y-8 rounded-2xl lg:p-8 p-4 border-2 border-primary/10 hover:border-primary/50 transition-all duration-300 ease-in-out shadow-2xl shadow-primary/10 hover:shadow-primary/20 lg:min-w-[400px] w-full"
                         >
                             <FormField
                                 control={form.control}

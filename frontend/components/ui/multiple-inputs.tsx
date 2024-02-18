@@ -43,8 +43,8 @@ export const InputTags = forwardRef<HTMLInputElement, InputTagsProps>(
           />
           <Button
             type="button"
-            variant="default"
-            className="rounded-l-none border-none py-5"
+            variant="secondary"
+            className="rounded-l-none border-none py-5 bg-primary/5 hover:bg-primary/10"
             onClick={addPendingDataPoint}
           >
             Add

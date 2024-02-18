@@ -1,15 +1,9 @@
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import LogoCloud from "@/components/ui/LogoCloud";
-import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
-import { Butterfly_Kids } from "next/font/google";
 
 export default async function PricingPage() {
-    const supabase = createClient();
 
-    const {
-        data: { user }
-    } = await supabase.auth.getUser();
 
     return (
         <main className="flex justify-center items-center px-8 py-24 flex-col gap-6 bg-background dark:bg-dot-white/[0.3] bg-dot-black/[0.3]">
