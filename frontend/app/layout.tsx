@@ -52,7 +52,9 @@ import { cn } from "@/utils/cn";
 
 const instrument_sans = Instrument_Sans({
     subsets: ["latin"],
-    variable: "--font-heading"
+    variable: "--font-heading",
+    display: 'swap',
+    adjustFontFallback: false
 });
 
 const atkinson_hyperlegible = Atkinson_Hyperlegible({
@@ -70,7 +72,7 @@ export default async function RootLayout({ children }: PropsWithChildren) {
                 <Navbar/>
                 <main
                     id="skip"
-                    className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
+                    className=""
                 >
                     {children}
                 </main>

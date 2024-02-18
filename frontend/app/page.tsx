@@ -6,8 +6,8 @@ export default async function PricingPage() {
 
 
     return (
-        <main className="flex justify-center items-center px-8 py-24 flex-col gap-6 bg-background dark:bg-dot-white/[0.3] bg-dot-black/[0.3]">
-            <div className="absolute pointer-events-none inset-0 lg:flex hidden items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)] min-h-screen min-w-screen"></div>
+        <main className="flex justify-center items-center px-8 py-24 flex-col gap-6 bg-background dark:bg-dot-white/[0.3] bg-dot-black/[0.3] relative">
+            <div className="absolute pointer-events-none inset-0 lg:flex hidden items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)] min-w-screen "></div>
             <h1 className="lg:text-6xl md:text-5xl text-4xl lg:max-w-[800px] tracking-[-1px] max-w-2xl font-medium font-heading">
                 Securely{" "}
                 <span className=" bg-gradient-to-r bg-[length:180%] bg-[background-position:initial] hover:[background-position:-200%_-200%] hover:bg-pos-100 transition-all duration-500 ease-in-out from-primary to-primary/60 text-transparent bg-clip-text font-[1000] ">

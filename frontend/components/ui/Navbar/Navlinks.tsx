@@ -87,6 +87,12 @@ export default function Navlinks({ user }: NavlinksProps) {
                                     </DropdownMenuItem>
                                 </Link>
                             )}
+                            <Link href={"/"}>
+                                <DropdownMenuItem
+                                >
+                                    Home
+                                </DropdownMenuItem>
+                            </Link>
                             <DropdownMenuSeparator />
 
                             <form
@@ -98,7 +104,7 @@ export default function Navlinks({ user }: NavlinksProps) {
                                     className="focus:bg-inherit"
                                 >
                                     <Button
-                                        className="ml-auto w-full"
+                                        className="ml-auto w-full hover:bg-primary/20"
                                         variant={"secondary"}
                                         type="submit"
                                     >
