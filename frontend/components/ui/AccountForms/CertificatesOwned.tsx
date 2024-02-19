@@ -61,11 +61,12 @@ const CertifcatesOwned = ({
     const [certificates, setCertificates] = React.useState<
         CertificateWithIssuingOrganization[] | null
     >(null);
-    Font.register({
-        family: "Work Sans",
-        src: "http://fonts.gstatic.com/s/worksans/v2/ElUAY9q6T0Ayx4zWzW63VKCWcynf_cDxXwCLxiixG1c.ttf",
-        fontWeight: 800
-    });
+    // Font.register({
+    //     family: "WorkSans",
+    //     src: "http://fonts.gstatic.com/s/worksans/v2/ElUAY9q6T0Ayx4zWzW63VKCWcynf_cDxXwCLxiixG1c.ttf",
+    //     fontWeight: 800,
+    //     fontStyle: "normal"
+    // });
     const CertificatePDF = ({
         certificate
     }: {
@@ -76,7 +77,6 @@ const CertifcatesOwned = ({
                 style={{
                     flexDirection: "row",
                     backgroundColor: "#191a1a",
-                    fontFamily: "Work Sans"
                 }}
                 size={{
                     width: 1920 / 3,
