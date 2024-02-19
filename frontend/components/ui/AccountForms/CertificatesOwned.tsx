@@ -26,7 +26,8 @@ import ReactPDF, {
     Link as PDFLink,
     Image as PDFImage,
     Font,
-    PDFDownloadLink
+    PDFDownloadLink,
+    BlobProvider
 } from "@react-pdf/renderer";
 import { Button } from "../button";
 import { Root, createRoot } from "react-dom/client";
@@ -363,7 +364,7 @@ const CertifcatesOwned = ({
                                                 //     );
                                                 // }}
                                             >
-                                                <PDFDownloadLink
+                                                <BlobProvider
                                                     document={
                                                         <CertificatePDF
                                                             certificate={
@@ -371,19 +372,29 @@ const CertifcatesOwned = ({
                                                             }
                                                         />
                                                     }
-                                                    fileName={`CredChain_${user.id}_${certificate.id}.pdf`}
                                                 >
                                                     {({
                                                         blob,
                                                         url,
                                                         loading,
                                                         error
-                                                    }) =>
-                                                        loading
-                                                            ? "Loading..."
-                                                            : "Download"
-                                                    }
-                                                </PDFDownloadLink>
+                                                    }) => {
+                                                        console.log(blob);
+                                                        console.log(url);
+                                                        if (error) {
+                                                            console.error(
+                                                                error
+                                                            );
+                                                        }
+                                                        return (
+                                                            <Link href={url ?? "#"} type="download" target="_blank" rel={"noopener"}>
+                                                                {loading
+                                                                    ? "Loading..."
+                                                                    : "Download"}
+                                                            </Link>
+                                                        );
+                                                    }}
+                                                </BlobProvider>
                                             </Button>
                                         </TableCell>
                                     </TableRow>
