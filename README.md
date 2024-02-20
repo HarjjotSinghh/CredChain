@@ -3,7 +3,7 @@
   
 <img src="https://raw.githubusercontent.com/HarjjotSinghh/CredChain/master/frontend/public/logo.png" align="center" width="70%"/>
 
-CredChain revolutionizes credential and certificates verification using blockchain technology.  Our platform securely stores and verifies credentials, creating an immutable and trustless system that eliminates the risk of frauds in certificates.
+CredChain revolutionizes credential and certificates verification using blockchain technology.  Yes, Our platform securely stores and verifies credentials, creating an immutable and trustless system that eliminates the risk of frauds in certificates.
 
 ## Problem Statement
 
