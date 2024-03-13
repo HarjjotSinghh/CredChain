@@ -1,5 +1,5 @@
 
-# CredChain: Decentralized Marksheet Verification
+# CredChain: Decentralized Credentials Verification
   
 <img src="https://raw.githubusercontent.com/HarjjotSinghh/CredChain/master/frontend/public/logo.png" align="center" width="70%"/>
 
