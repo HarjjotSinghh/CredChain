@@ -3,8 +3,6 @@ import LogoCloud from "@/components/ui/LogoCloud";
 import Link from "next/link";
 
 export default async function PricingPage() {
-
-
     return (
         <main className="flex justify-center items-center px-8 py-24 flex-col gap-6 bg-background dark:bg-dot-white/[0.3] bg-dot-black/[0.3] relative">
             <div className="absolute pointer-events-none inset-0 lg:flex hidden items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)] min-w-screen "></div>
@@ -33,7 +31,10 @@ export default async function PricingPage() {
                         </Button>
                     </Link>
                     <Link href="/signin/signup">
-                        <Button variant={"ghost"} className="lg:text-base text-sm lg:px-6 px-4 tracking-tight font-extrabold font-heading lg:shadow-lg border-2 border-primary shadow-md shadow-primary/10 hover:shadow-primary/30 transition-all duration-300 ease-in-out">
+                        <Button
+                            variant={"ghost"}
+                            className="lg:text-base text-sm lg:px-6 px-4 tracking-tight font-extrabold font-heading lg:shadow-lg border-2 border-primary shadow-md shadow-primary/10 hover:shadow-primary/30 transition-all duration-300 ease-in-out"
+                        >
                             Know More
                         </Button>
                     </Link>

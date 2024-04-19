@@ -187,7 +187,8 @@ export async function signUp(formData: FormData) {
     options: {
       emailRedirectTo: callbackURL,
       data: {
-        organization: Boolean(organization)
+        organization: Boolean(organization),
+        email: email
       }
     },
   });

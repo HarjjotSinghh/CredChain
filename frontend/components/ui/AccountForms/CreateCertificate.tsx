@@ -12,7 +12,14 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import Input from "../input";
-import React, { use, useState } from "react";
+import React, {
+    ChangeEvent,
+    ReactNode,
+    use,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import { Tables } from "@/types_db";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import NotConnected from "./NotConnected";
@@ -20,6 +27,12 @@ import { createClient } from "@/utils/supabase/client";
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import { sha256 } from "js-sha256";
 import { InputTags } from "../multiple-inputs";
+import { MultiSelect } from "../multi-select";
+import MultipleSelector, { Option } from "../multiple-selector";
+
+interface CustomOption extends Option {
+    id: string;
+}
 
 const certificateFormSchema = z.object({
     title: z
@@ -29,14 +42,7 @@ const certificateFormSchema = z.object({
     certificate_hash: z.string(),
     metadata: z.object({}).nullable(),
     user_ids: z
-        .array(
-            z
-                .string()
-                .regex(
-                    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-                    { message: "Invalid UUID(s) entered" }
-                )
-        )
+        .array(z.custom<CustomOption>())
         .min(1, { message: "Please add at least one user" }),
     issuing_organization_id: z.string()
 });
@@ -68,6 +74,74 @@ export default function CreateCertificate({
     const supabase = createClient();
     const aptosConfig = new AptosConfig({ network: Network.TESTNET });
     const aptos = new Aptos(aptosConfig);
+    const [users, setUsers] = useState<Tables<"users">[] | null>(null);
+    const [userInput, setUserInput] = useState<string>("");
+    const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+
+    useEffect(() => {
+        const getUsers = async () => {
+            try {
+                setLoading(true);
+                const { data, error } = await supabase
+                    .from("users")
+                    .select("*");
+                console.log(data);
+                if (error) {
+                    console.log(error);
+                    console.error(error);
+                }
+                if (!data) {
+                    console.log(data);
+                }
+                setUsers(data);
+            } catch (e: any) {
+                console.log("Error while fetching users: " + e.message);
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getUsers();
+    }, []);
+    useEffect(() => {
+        const getUsers = async () => {
+            try {
+                setLoading(true);
+                if (userInput.length < 3) {
+                    return;
+                }
+                const { data, error } = await supabase
+                    .from("users")
+                    .select("*")
+                    .like("full_name", `%${userInput}%`);
+                if (error) {
+                    console.log(error);
+                    console.error(error);
+                }
+                if (!data) {
+                    console.log(data);
+                }
+                // const data_ = data?.filter((user) => {
+                //     // console.log(
+                //     //     user.full_name
+                //     //         ?.toLowerCase()
+                //     //         .includes(userInput.toLowerCase())
+                //     // );
+                //     user.full_name
+                //         ?.toLowerCase()
+                //         .includes(userInput.toLowerCase());
+                // }) as Tables<"users">[];
+                setUsers(data);
+                // console.log(users);
+            } catch (e: any) {
+                console.log("Error while fetching users: " + e.message);
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getUsers();
+    }, [userInput]);
 
     const onSignAndSubmitTransaction = async (hashedCertificate: string) => {
         try {
@@ -103,6 +177,8 @@ export default function CreateCertificate({
                         .from("certificates")
                         .insert({
                             ...values,
+                            title: values.title,
+                            user_ids: values.user_ids.map((user) => user.id),
                             certificate_hash: certificateHash,
                             txn_id: txn.hash
                         });
@@ -165,17 +241,72 @@ export default function CreateCertificate({
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name="user_ids"
                                 render={({ field }) => (
-                                    <FormItem>
+                                    <FormItem
+                                        onChange={(
+                                            e: React.ChangeEvent<HTMLInputElement>
+                                        ) => {
+                                            setUserInput(e.target.value);
+                                        }}
+                                    >
                                         <FormLabel className="lg:text-lg text-base">
                                             Certificants' CredChain IDs
                                         </FormLabel>
                                         <FormControl>
-                                            <InputTags
-                                                placeholder="User IDs"
+                                            {/* {
+                                                console.log(
+                                                    users,
+                                                    selectedUsers
+                                                ) as ReactNode
+                                            } */}
+                                            {/* <MultiSelect
+                                                heading="Select Certificants"
+                                                options={
+                                                    users?.map((user) => ({
+                                                        label:
+                                                            user.full_name ??
+                                                            "",
+                                                        value:
+                                                            user.full_name ?? ""
+                                                    })) ?? []
+                                                }
+                                                selected={selectedUsers}
+                                                onChange={(e) =>
+                                                    setSelectedUsers(e)
+                                                }
+                                            /> */}
+                                            <MultipleSelector
+                                                options={
+                                                    users?.map((user) => {
+                                                        return {
+                                                            label:
+                                                                user.full_name ??
+                                                                "",
+                                                            value:
+                                                                user.full_name ??
+                                                                "",
+                                                            id: user.id
+                                                        };
+                                                    }) ?? []
+                                                }
+                                                // emptyIndicator={users?.map(
+                                                //     (user) => {
+                                                //         return (
+                                                //             <p className="text-sm text-foreground/80">
+                                                //                 {user.full_name}
+                                                //             </p>
+                                                //         );
+                                                //     }
+                                                // )}
+                                                triggerSearchOnFocus={true}
+                                                loadingIndicator={
+                                                    <p>Loading...</p>
+                                                }
+                                                // disabled={loading}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -190,9 +321,7 @@ export default function CreateCertificate({
                                 type="submit"
                                 disabled={loading}
                             >
-                                {loading
-                                    ? "Handling Certificate Creation"
-                                    : "Create Certificate"}
+                                {loading ? "Loading..." : "Create Certificate"}
                             </Button>
                         </form>
                     </Form>
