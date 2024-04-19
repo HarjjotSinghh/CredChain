@@ -28,7 +28,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
     };
 
     return (
-        <div className="my-8">
+        <div className="">
             <form
                 noValidate={true}
                 className="mb-4"
@@ -60,16 +60,7 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
                             name="password"
                             autoComplete="current-password"
                         />
-                        <div className="inline-flex flex-row-reverse gap-2 items-center mr-auto my-2">
-                            <label htmlFor="organization">
-                                Do you represent an organization?
-                            </label>
-
-                            <Checkbox
-                                className="size-5"
-                                id="organization"
-                                name="organization"
-                            ></Checkbox>
+                        <div>
                             <label htmlFor="full_name">Full Name</label>
                             <input
                                 className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -81,6 +72,17 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
                                 autoComplete="full_name"
                                 autoCorrect="off"
                             />
+                        </div>
+                        <div className="inline-flex flex-row-reverse gap-2 items-center mr-auto my-2">
+                            <label htmlFor="organization">
+                                Do you represent an organization?
+                            </label>
+
+                            <Checkbox
+                                className="size-5"
+                                id="organization"
+                                name="organization"
+                            ></Checkbox>
                         </div>
                     </div>
                     <Button variant="default" type="submit" className="mt-1">
