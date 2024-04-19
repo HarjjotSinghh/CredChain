@@ -168,7 +168,8 @@ export async function signUp(formData: FormData) {
 
   const email = String(formData.get('email')).trim();
   const password = String(formData.get('password')).trim();
-  const organization = formData.get('organization');
+  const organization = String(formData.get('organization')).trim();
+  const full_name = String(formData.get('full_name')).trim()
   console.log(Number(Boolean(organization)))
   let redirectPath: string;
 
@@ -188,7 +189,8 @@ export async function signUp(formData: FormData) {
       emailRedirectTo: callbackURL,
       data: {
         organization: Boolean(organization),
-        email: email
+        email: email,
+        full_name: full_name
       }
     },
   });

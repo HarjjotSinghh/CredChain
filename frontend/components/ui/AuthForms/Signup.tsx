@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from '../button';
+import { Button } from "../button";
 import React from "react";
 import Link from "next/link";
 import { signUp } from "@/utils/auth-helpers/server";
@@ -61,15 +61,26 @@ export default function SignUp({ allowEmail, redirectMethod }: SignUpProps) {
                             autoComplete="current-password"
                         />
                         <div className="inline-flex flex-row-reverse gap-2 items-center mr-auto my-2">
-                        <label htmlFor="organization">Do you represent an organization?</label>
+                            <label htmlFor="organization">
+                                Do you represent an organization?
+                            </label>
 
-                        <Checkbox
-                            className="size-5"
-                            id="organization"
-                            name="organization"
-                            
-                        ></Checkbox>
-
+                            <Checkbox
+                                className="size-5"
+                                id="organization"
+                                name="organization"
+                            ></Checkbox>
+                            <label htmlFor="full_name">Full Name</label>
+                            <input
+                                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                                id="full_name"
+                                placeholder="Full Name"
+                                type="text"
+                                name="full_name"
+                                autoCapitalize="none"
+                                autoComplete="full_name"
+                                autoCorrect="off"
+                            />
                         </div>
                     </div>
                     <Button variant="default" type="submit" className="mt-1">
