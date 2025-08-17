@@ -28,3 +28,4 @@ CredChain revolutionizes credential and certificates verification using blockcha
 ### Frontend:
 - **Framework**: Next.js
 - **UI Library**: shadcnUI + Tailwind CSS
+##update
